@@ -1,26 +1,14 @@
-import datetime
-import psycopg2
-import os
+from datetime import datetime
+import sqlite3
 from dotenv import load_dotenv
 
 load_dotenv()
 
-DB_HOST = os.getenv('DB_HOST', 'postgres-db')
-DB_PORT = os.getenv('DB_PORT', '5432')
-DB_NAME = os.getenv('DB_NAME', 'botdb')
-DB_USER = os.getenv('DB_USER', 'myuser')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'mypassword')
+DB_PATH = "/app/bot/birthday-bot.db"
 
 def connection():
-    conn = psycopg2.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD
-    )
+    conn = sqlite3.connect(DB_PATH)
     return conn
-
 
 def create_birthday_data():
     conn = connection()
@@ -51,7 +39,7 @@ def has_sent_birthday_message(name):
     today = datetime.now().strftime('%m-%d')
 
     cursor.execute('''
-    SELECT 1 FROM birthday_messages WHERE name = %s AND date_sent = %s
+    SELECT 1 FROM birthday_messages WHERE name = ? AND date_sent = ?
     ''', (name, today))
 
     result = cursor.fetchone()
@@ -67,7 +55,7 @@ def mark_birthday_sent(name):
 
     cursor.execute('''
     INSERT INTO birthday_messages (name, date_sent)
-    VALUES (%s, %s)
+    VALUES (?, ?)
     ''', (name, today))
 
     conn.commit()

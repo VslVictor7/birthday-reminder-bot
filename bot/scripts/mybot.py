@@ -1,10 +1,8 @@
 import discord
 import os
-import pytz
 import asyncio
 from discord.ext import commands
 from dotenv import load_dotenv
-from datetime import datetime
 
 load_dotenv()
 

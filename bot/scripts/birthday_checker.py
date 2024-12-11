@@ -31,8 +31,8 @@ async def send_birthday_messages(bot, birthdays):
                     print(f"[BIRTHDAYS] Mensagem de lembrete enviada para {user.name}.")
                     mark_birthday_sent(friend)
                 print(f"[BIRTHDAYS] Mensagem de lembrete já foi enviada para {user.name}. Verificando novamente em 10 minutos.")
-
-    print("[BIRTHDAYS] Lista de aniversariantes analisada, nenhum aniversário foi detectado hoje.")
+    else:
+        print("[BIRTHDAYS] Lista de aniversariantes analisada, nenhum aniversário foi detectado hoje.")
 
 async def birthday_check_periodically(bot, birthdays, interval=18000):
 

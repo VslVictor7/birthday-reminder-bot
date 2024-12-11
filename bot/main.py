@@ -1,6 +1,5 @@
 import discord
 import os
-import aiohttp
 from scripts.mybot import MyBot
 from scripts.birthday_database import create_birthday_data
 from scripts.birthday_checker import parse_birthdays, birthday_check_periodically
@@ -10,8 +9,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
-CHANNEL_ID = int(os.getenv('CHANNEL_ID'))
-MESSAGE_ID = int(os.getenv('MESSAGE_ID'))
 FRIENDS_BIRTHDAYS = os.getenv('BIRTHDAYS')
 
 # Rodar o bot.
@@ -30,19 +27,14 @@ async def on_ready():
 
     create_birthday_data()
 
-    channel = bot.get_channel(CHANNEL_ID)
-    if channel:
-        try:
-            parsed_birthdays = parse_birthdays(FRIENDS_BIRTHDAYS)
-            print("[BOT STARTED] Pronto para monitoramento de Aniversariantes.")
+    try:
+        parsed_birthdays = parse_birthdays(FRIENDS_BIRTHDAYS)
+        print("[BOT STARTED] Pronto para monitoramento de Aniversariantes.")
 
-            await birthday_check_periodically(bot, parsed_birthdays)
+        await birthday_check_periodically(bot, parsed_birthdays)
 
-        except discord.DiscordException as e:
-            print(f"[BOT ERROR] Erro ao buscar mensagem: {e}")
-            await bot.close()
-    else:
-        print("[BOT ERROR] Canal não detectado.")
+    except discord.DiscordException as e:
+        print(f"[BOT ERROR] Erro ao buscar aniversários: {e}")
         await bot.close()
 
 
