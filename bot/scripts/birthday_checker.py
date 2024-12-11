@@ -16,7 +16,7 @@ def parse_birthdays(birthdays_str):
             birthdays[name.strip()] = date.strip()
     return birthdays
 
-async def send_birthday_messages(bot, birthdays):
+async def send_birthday_messages(bot, birthdays, time_hours):
     today = datetime.now().strftime('%m-%d')
     birthday_friends = [name for name, date in birthdays.items() if date == today]
 
@@ -32,7 +32,7 @@ async def send_birthday_messages(bot, birthdays):
                     mark_birthday_sent(friend)
                 print(f"[BIRTHDAYS] Mensagem de lembrete já foi enviada para {user.name}. Verificando novamente em 10 minutos.")
     else:
-        print("[BIRTHDAYS] Lista de aniversariantes analisada, nenhum aniversário foi detectado hoje.")
+        print(f"[BIRTHDAYS] Lista de aniversariantes analisada, nenhum aniversário foi detectado hoje. Analisando novamente em {time_hours} horas.")
 
 async def birthday_check_periodically(bot, birthdays, interval=18000):
 
@@ -41,5 +41,6 @@ async def birthday_check_periodically(bot, birthdays, interval=18000):
         return
 
     while True:
-        await send_birthday_messages(bot, birthdays)
+        timer_hours = interval / 3600
+        await send_birthday_messages(bot, birthdays, timer_hours)
         await asyncio.sleep(interval)
