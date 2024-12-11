@@ -1,0 +1,13 @@
+services:
+  bot-birthday-reminder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bot-birthday-reminder
+    working_dir: /app
+    image: bot-birthday-reminder
+    env_file:
+      - .env
+    restart: always
+    tty: true
+    stdin_open: true
