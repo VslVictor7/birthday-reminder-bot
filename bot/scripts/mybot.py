@@ -1,12 +1,9 @@
 import discord
-import os
 import asyncio
 from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
-
-IP = os.getenv('MINECRAFT_SERVER')
 
 class MyBot(commands.Bot):
     def __init__(self):

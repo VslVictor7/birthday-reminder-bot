@@ -11,8 +11,6 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 FRIENDS_BIRTHDAYS = os.getenv('BIRTHDAYS')
 
-# Rodar o bot.
-
 bot = MyBot()
 
 @bot.event
